@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Lupt Shabd — An Archive of Rare and Forgotten Indian Words">
+<title>Lupt Shabd — Rare Indian Words Archive</title>
+<style>
+:root{
+  --bg:#f3eee3; --paper:#fbf8ef; --ink:#24211d; --muted:#716b60;
+  --line:#d9d0bf; --accent:#7a3e2f; --accent2:#a66a3f;
+  --shadow:0 16px 45px rgba(47,35,20,.10); --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.20;background-image:radial-gradient(#8b765c .55px,transparent .55px);background-size:7px 7px;z-index:-1}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.topbar{position:fixed;top:0;left:0;right:0;height:72px;z-index:1000;background:rgba(251,248,239,.90);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5vw}
+.brand{font-family:Georgia,serif;font-size:17px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.nav{display:flex;gap:24px;font-size:13px;color:#504a42}
+.nav a:hover{color:var(--accent)}
+.controls{display:flex;align-items:center;gap:9px}
+select,.iconbtn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:8px 10px}
+.iconbtn{width:38px;height:38px;padding:0}
+.hero{min-height:100vh;padding:145px 7vw 80px;display:grid;place-items:center;position:relative;text-align:center;overflow:hidden}
+.hero-inner{max-width:1000px;position:relative;z-index:2}
+.kicker{text-transform:uppercase;letter-spacing:.24em;color:var(--accent);font-size:11px;font-weight:800}
+.hero h1{font-size:clamp(44px,7vw,88px);line-height:.98;margin:18px 0 18px;font-weight:500}
+.hero p{max-width:700px;margin:0 auto;color:var(--muted);font-family:Georgia,serif;font-size:clamp(17px,2vw,23px);line-height:1.6}
+.ctas{margin-top:34px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn{border:1px solid var(--accent);padding:12px 18px;border-radius:12px;background:var(--accent);color:white;font-weight:700}
+.btn.secondary{background:transparent;color:var(--accent)}
+.floating-layer{position:absolute;inset:0;pointer-events:none;z-index:1}
+.float-word{position:absolute;left:0;top:0;opacity:.12;color:var(--accent);font-family:Georgia,serif;font-size:clamp(17px,2.1vw,30px);white-space:nowrap;animation:drift linear infinite;will-change:transform}
+@keyframes drift{
+  0%{transform:translate3d(var(--x0),110vh,0) rotate(var(--r))}
+  100%{transform:translate3d(calc(var(--x0) + var(--dx)), -20vh,0) rotate(calc(var(--r) + 20deg))}
+}
+section{padding:92px 7vw}
+.section-head{max-width:780px;margin-bottom:34px}
+.eyebrow{text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-size:11px;font-weight:800}
+.section-head h2{font-size:clamp(34px,5vw,58px);font-weight:500;margin:10px 0}
+.section-head p{color:var(--muted);line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:var(--paper);border:1px solid var(--line);padding:26px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.stat strong{display:block;font:500 42px Georgia,serif;color:var(--accent)}
+.stat span{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.language-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.language-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:30px;min-height:220px;position:relative;overflow:hidden;transition:.25s}
+.language-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.script{font-size:42px;font-family:serif}
+.language-card h3{font-size:28px;margin:14px 0 4px}
+.language-card p{color:var(--muted);font-size:13px}
+.archive-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.search{flex:1;min-width:240px;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:13px 15px;outline:none}
+.search:focus{border-color:var(--accent)}
+.filter{border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:12px 14px}
+.archive-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.word-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:.22s;position:relative}
+.word-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#c6b79f}
+.word-native{font:500 32px Georgia,serif;line-height:1.25}
+.word-trans{color:var(--muted);font-size:13px;margin-top:8px}
+.word-meaning{font-family:Georgia,serif;font-size:17px;margin-top:16px}
+.badge{display:inline-block;padding:5px 8px;border-radius:99px;background:#eee5d5;color:#654f3b;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.card-bottom{display:flex;justify-content:space-between;gap:8px;align-items:end;margin-top:22px}
+.id{font-size:10px;color:#948a7c}
+.discover{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:stretch}
+.word-feature{background:var(--accent);color:white;border-radius:26px;padding:46px;min-height:360px;display:flex;flex-direction:column;justify-content:center}
+.word-feature .native{font:500 clamp(45px,6vw,78px) Georgia,serif}
+.word-feature .meaning{font:24px Georgia,serif;margin-top:15px}
+.word-feature .trans{opacity:.75;margin-top:8px}
+.info-card{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:34px}
+.info-card h3{font-size:28px;margin-top:0}
+.info-card p{line-height:1.8;color:var(--muted)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:30px}
+.panel h3{font-size:27px;margin-top:0}
+.panel p,.panel li{color:var(--muted);line-height:1.75}
+.contributors{display:grid;gap:12px}
+.person{padding:16px;border:1px solid var(--line);border-radius:14px;background:#f6f0e5}
+.person strong{display:block;font-family:Georgia,serif;font-size:18px}
+.person span{font-size:12px;color:var(--muted)}
+footer{padding:50px 7vw 70px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.footer-title{font:500 25px Georgia,serif}
+.footer-note{color:var(--muted);font-size:13px;max-width:550px;line-height:1.6}
+.modal{position:fixed;inset:0;background:rgba(28,22,16,.60);display:none;align-items:center;justify-content:center;padding:20px;z-index:2000}
+.modal.open{display:flex}
+.modal-box{width:min(900px,100%);max-height:90vh;overflow:auto;background:var(--paper);border-radius:24px;border:1px solid var(--line);box-shadow:0 30px 100px rgba(0,0,0,.25)}
+.modal-top{padding:32px 34px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px}
+.close{border:0;background:transparent;font-size:28px;color:var(--muted)}
+.modal-native{font:500 48px Georgia,serif}
+.modal-trans{color:var(--muted);margin-top:6px}
+.modal-meaning{font:24px Georgia,serif;margin-top:16px}
+.modal-body{padding:26px 34px}
+.meta{display:grid;grid-template-columns:190px 1fr;border-top:1px solid var(--line)}
+.meta div{padding:13px 0;border-bottom:1px solid var(--line)}
+.meta .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}
+.meta .value{font-size:14px}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.speak{border:1px solid var(--accent);background:var(--accent);color:#fff;padding:11px 15px;border-radius:11px;font-weight:700}
+.copy{border:1px solid var(--line);background:transparent;padding:11px 15px;border-radius:11px}
+.notice{background:#eee5d5;border-left:4px solid var(--accent);padding:15px 17px;color:#5c5145;font-size:13px;line-height:1.6;border-radius:6px}
+.empty{padding:50px;text-align:center;color:var(--muted);grid-column:1/-1;background:var(--paper);border:1px dashed var(--line);border-radius:18px}
+.theme-dark{--bg:#201c18;--paper:#2a2520;--ink:#f1eadf;--muted:#bdb2a2;--line:#4b4238;--accent:#c27b59;--accent2:#d19b6d}
+.theme-dark .topbar{background:rgba(42,37,32,.90)}
+.theme-dark .badge{background:#3b322a;color:#e6d3bd}
+.theme-dark .person{background:#302a24}
+.theme-dark .notice{background:#382f27;color:#d7c8b7}
+@media(max-width:1000px){
+ .nav{display:none}.archive-grid{grid-template-columns:repeat(3,1fr)}
+ .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+ .topbar{padding:0 4vw}.brand{font-size:14px}
+ .hero{padding-left:5vw;padding-right:5vw}
+ section{padding:70px 5vw}
+ .language-grid,.archive-grid,.about-grid,.discover{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr 1fr}
+ .meta{grid-template-columns:1fr}
+ .meta .label{padding-bottom:3px;border-bottom:0}
+ .modal-top{padding:24px}
+ .modal-body{padding:20px 24px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
+
+/* =========================================================
+   LUpt SHABD — Multilingual Visual Redesign
+   Presentation-only enhancement: archive data + JS preserved.
+   ========================================================= */
+:root{
+  --bg:#f7f4ed;
+  --paper:#fffdf8;
+  --ink:#17202b;
+  --muted:#65707b;
+  --line:#dfe4e8;
+  --accent:#e46b32;
+  --accent2:#147d64;
+  --saffron:#f28c28;
+  --green:#15805f;
+  --blue:#2878b8;
+  --indigo:#5a4bb7;
+  --rose:#c94d73;
+  --gold:#c99b2e;
+  --shadow:0 18px 50px rgba(28,43,54,.11);
+  --shadow-lg:0 28px 80px rgba(28,43,54,.16);
+  --radius:22px;
+}
+
+/* Rich, multilingual paper texture */
+body{
+  background:
+    radial-gradient(circle at 12% 8%, rgba(242,140,40,.13), transparent 25%),
+    radial-gradient(circle at 88% 14%, rgba(40,120,184,.12), transparent 26%),
+    radial-gradient(circle at 78% 78%, rgba(21,128,95,.10), transparent 25%),
+    var(--bg);
+  color:var(--ink);
+}
+body:before{
+  opacity:.16;
+  background-image:
+    linear-gradient(135deg,rgba(255,255,255,.55) 25%,transparent 25%),
+    linear-gradient(315deg,rgba(255,255,255,.40) 25%,transparent 25%);
+  background-size:28px 28px;
+}
+body:after{
+  content:"";
+  position:fixed;
+  left:0; right:0; bottom:0;
+  height:4px;
+  z-index:1500;
+  background:linear-gradient(90deg,
+    var(--saffron) 0 25%,
+    var(--blue) 25% 50%,
+    var(--green) 50% 75%,
+    var(--rose) 75% 100%);
+  pointer-events:none;
+}
+
+.topbar{
+  height:78px;
+  padding:0 5.5vw;
+  background:rgba(255,253,248,.84);
+  border-bottom:1px solid rgba(215,221,225,.9);
+  box-shadow:0 8px 28px rgba(20,40,55,.06);
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:18px;
+  color:#16232d;
+}
+.brand:before{
+  content:"अ • অ • ಅ • മ";
+  display:inline-grid;
+  place-items:center;
+  width:42px;height:42px;
+  border-radius:13px;
+  color:white;
+  font-family:Georgia,serif;
+  font-size:13px;
+  letter-spacing:-1px;
+  background:conic-gradient(from 210deg,var(--saffron),var(--rose),var(--indigo),var(--blue),var(--green),var(--saffron));
+  box-shadow:0 7px 18px rgba(73,76,145,.18);
+}
+.nav{
+  gap:7px;
+  padding:5px;
+  border:1px solid #e2e6e8;
+  border-radius:15px;
+  background:rgba(255,255,255,.58);
+}
+.nav a{
+  padding:9px 12px;
+  border-radius:10px;
+  color:#4d5a65;
+  transition:.2s ease;
+}
+.nav a:hover{
+  color:#17202b;
+  background:#eef3f4;
+}
+.controls select,.controls .iconbtn{
+  border:1px solid #d8e0e4;
+  background:white;
+  box-shadow:0 4px 12px rgba(20,40,55,.05);
+}
+.controls select{
+  border-radius:12px;
+  padding:9px 12px;
+  font-weight:650;
+}
+.iconbtn{
+  border-radius:12px;
+}
+
+.hero{
+  min-height:94vh;
+  padding-top:148px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.20),rgba(255,255,255,0)),
+    radial-gradient(circle at 50% 40%,rgba(255,255,255,.75),transparent 48%);
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  width:min(760px,80vw);
+  aspect-ratio:1;
+  border:1px solid rgba(40,120,184,.13);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 28px rgba(242,140,40,.045),
+    0 0 0 56px rgba(21,128,95,.035),
+    0 0 0 84px rgba(90,75,183,.025);
+  transform:rotate(15deg);
+}
+.hero-inner{max-width:1100px}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 13px;
+  border-radius:999px;
+  color:#48606d;
+  background:rgba(255,255,255,.72);
+  border:1px solid #dde5e8;
+  box-shadow:0 6px 20px rgba(20,40,55,.05);
+  letter-spacing:.16em;
+}
+.kicker:before{
+  content:"✦";
+  color:var(--saffron);
+  font-size:13px;
+}
+.hero h1{
+  font-size:clamp(48px,7.7vw,98px);
+  letter-spacing:-.045em;
+  background:linear-gradient(110deg,#173b55 0%,#6b3ea0 34%,#c94d73 62%,#e46b32 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:none;
+}
+.hero p{color:#5b6873}
+.ctas .btn{
+  border-radius:14px;
+  padding:13px 19px;
+  box-shadow:0 10px 22px rgba(228,107,50,.18);
+}
+.btn{
+  border-color:var(--accent);
+  background:linear-gradient(135deg,var(--accent),#d94f42);
+}
+.btn.secondary{
+  background:rgba(255,255,255,.72);
+  color:#315267;
+  border-color:#cddbe2;
+  box-shadow:none;
+}
+.btn:hover{transform:translateY(-2px);filter:saturate(1.08)}
+
+.float-word{
+  opacity:.10;
+  background:linear-gradient(90deg,var(--saffron),var(--blue),var(--green),var(--rose));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+section{padding:100px 7vw}
+section:nth-of-type(even){
+  background:rgba(255,255,255,.27);
+}
+.section-head{
+  position:relative;
+  margin-bottom:38px;
+}
+.section-head:after{
+  content:"";
+  display:block;
+  width:76px;
+  height:4px;
+  margin-top:19px;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--saffron),var(--rose),var(--indigo),var(--blue),var(--green));
+}
+.eyebrow{color:var(--blue);letter-spacing:.2em}
+.section-head h2{color:#182c3a;letter-spacing:-.025em}
+
+.stats{gap:16px}
+.stat{
+  position:relative;
+  overflow:hidden;
+  min-height:138px;
+  padding:25px 24px;
+  background:rgba(255,253,248,.88);
+  border:1px solid #e1e6e8;
+  box-shadow:var(--shadow);
+}
+.stat:before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:5px;
+  background:linear-gradient(90deg,var(--saffron),var(--blue),var(--green),var(--rose));
+}
+.stat:nth-child(2):before{background:var(--blue)}
+.stat:nth-child(3):before{background:var(--green)}
+.stat:nth-child(4):before{background:var(--rose)}
+.stat strong{
+  color:#1d5571;
+  font-size:44px;
+}
+
+.language-grid{gap:20px}
+.language-card{
+  min-height:250px;
+  padding:29px;
+  background:rgba(255,255,255,.84);
+  border:1px solid #e0e6e9;
+  box-shadow:0 12px 34px rgba(28,43,54,.07);
+}
+.language-card:before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:6px;
+  background:var(--lang-color,var(--blue));
+}
+.language-card:after{
+  content:"";
+  position:absolute;
+  width:150px;height:150px;
+  right:-60px;bottom:-75px;
+  border-radius:50%;
+  background:var(--lang-color,var(--blue));
+  opacity:.07;
+}
+.language-card:nth-child(1){--lang-color:var(--green)}
+.language-card:nth-child(2){--lang-color:var(--blue)}
+.language-card:nth-child(3){--lang-color:var(--rose)}
+.language-card:nth-child(4){--lang-color:var(--saffron)}
+.language-card:nth-child(5){--lang-color:var(--indigo)}
+.script{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:14px;
+  background:color-mix(in srgb,var(--lang-color,var(--blue)) 10%,white);
+  color:var(--lang-color,var(--blue));
+  border:1px solid color-mix(in srgb,var(--lang-color,var(--blue)) 18%,white);
+}
+.language-card h3{color:#1b3545}
+.language-card p{color:#65727c}
+
+#archive{
+  background:
+    linear-gradient(180deg,rgba(235,245,247,.52),rgba(255,255,255,.1)),
+    transparent;
+}
+.archive-toolbar{
+  position:sticky;
+  top:88px;
+  z-index:20;
+  padding:10px;
+  border:1px solid rgba(218,226,230,.9);
+  border-radius:18px;
+  background:rgba(255,253,248,.86);
+  backdrop-filter:blur(15px);
+  box-shadow:0 12px 35px rgba(28,43,54,.08);
+}
+.search,.filter{
+  border-color:#d8e1e5;
+  background:white;
+  border-radius:13px;
+  padding:13px 15px;
+}
+.search:focus,.filter:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(40,120,184,.09)}
+.archive-grid{gap:18px}
+.word-card{
+  min-height:225px;
+  background:rgba(255,255,255,.90);
+  border:1px solid #e0e6e9;
+  box-shadow:0 8px 24px rgba(28,43,54,.055);
+  overflow:hidden;
+}
+.word-card:before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:4px;
+  background:var(--card-accent,var(--blue));
+}
+.word-card:nth-child(4n+1){--card-accent:var(--saffron)}
+.word-card:nth-child(4n+2){--card-accent:var(--blue)}
+.word-card:nth-child(4n+3){--card-accent:var(--green)}
+.word-card:nth-child(4n){--card-accent:var(--rose)}
+.word-card:hover{
+  transform:translateY(-6px);
+  border-color:#cbd8de;
+  box-shadow:var(--shadow);
+}
+.word-native{color:#1b3343}
+.word-meaning{color:#344f5e}
+.badge{
+  background:#edf4f5;
+  color:#3b6273;
+  border:1px solid #dbe7ea;
+}
+
+.discover{gap:24px}
+.word-feature{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 22%),
+    radial-gradient(circle at 15% 90%,rgba(255,255,255,.13),transparent 28%),
+    linear-gradient(135deg,#db6136,#8b4fa8 52%,#347eb2);
+  box-shadow:var(--shadow-lg);
+}
+.word-feature:after{
+  content:"अ   বাংলা   ಕನ್ನಡ   മലയാളം";
+  position:absolute;
+  right:24px;bottom:18px;
+  opacity:.16;
+  font-family:Georgia,serif;
+  font-size:14px;
+  letter-spacing:2px;
+}
+.info-card,.panel{
+  background:rgba(255,255,255,.84);
+  border:1px solid #e0e6e9;
+  box-shadow:0 10px 30px rgba(28,43,54,.06);
+}
+.info-card h3,.panel h3{color:#203b4b}
+.notice{
+  background:#f4f8f4;
+  border-left-color:var(--green);
+  color:#4f625a;
+}
+
+.person{
+  background:linear-gradient(100deg,#f7fbfb,#fffaf4);
+  border:1px solid #e0e6e8;
+  transition:.2s ease;
+}
+.person:hover{transform:translateX(4px);box-shadow:0 8px 20px rgba(28,43,54,.06)}
+.person strong{color:#234456}
+
+footer{
+  position:relative;
+  background:#172a36;
+  color:#eef5f6;
+  border-top:0;
+}
+footer:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:5px;
+  background:linear-gradient(90deg,var(--saffron),var(--blue),var(--green),var(--rose));
+}
+.footer-title{color:white}
+.footer-note{color:#b8c8ce}
+
+.modal{
+  background:rgba(13,28,37,.70);
+  backdrop-filter:blur(8px);
+}
+.modal-box{
+  background:#fffdf9;
+  border:1px solid #dce4e7;
+  box-shadow:0 35px 110px rgba(0,0,0,.28);
+}
+.modal-top{
+  background:linear-gradient(120deg,#f5fbfa,#fff8ef);
+}
+.modal-native{
+  background:linear-gradient(110deg,#1e5672,#7d4a9e,#d35c48);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.speak{
+  background:linear-gradient(135deg,var(--blue),var(--indigo));
+  border:0;
+}
+.copy{background:white;border-color:#d7e0e4}
+.meta .label{color:#64747d}
+.meta .value{color:#243b48}
+
+.theme-dark{
+  --bg:#101c24;
+  --paper:#172832;
+  --ink:#edf5f5;
+  --muted:#a9bbc2;
+  --line:#2c434d;
+  --accent:#ef8650;
+  --accent2:#57b895;
+}
+.theme-dark body{}
+.theme-dark .topbar{
+  background:rgba(16,28,36,.88);
+  border-color:#29404a;
+}
+.theme-dark .brand,.theme-dark .section-head h2,.theme-dark .language-card h3,
+.theme-dark .word-native,.theme-dark .word-meaning,.theme-dark .panel h3{color:#edf5f5}
+.theme-dark .nav{background:rgba(255,255,255,.035);border-color:#2d444e}
+.theme-dark .nav a{color:#b8c8ce}
+.theme-dark .language-card,.theme-dark .word-card,.theme-dark .stat,
+.theme-dark .info-card,.theme-dark .panel{
+  background:rgba(23,40,50,.90);
+  border-color:#2d444e;
+}
+.theme-dark .search,.theme-dark .filter,.theme-dark .controls select,.theme-dark .iconbtn{
+  background:#152832;color:#edf5f5;border-color:#304852;
+}
+.theme-dark .archive-toolbar{background:rgba(18,34,43,.84);border-color:#304852}
+.theme-dark .person{background:#1b303a;border-color:#314a54}
+.theme-dark .modal-box{background:#172832;border-color:#314a54}
+.theme-dark .modal-top{background:linear-gradient(120deg,#17313a,#30282a)}
+.theme-dark .modal-native{background:none;color:#edf5f5}
+.theme-dark .notice{background:#19342d;color:#bdd4cb}
+.theme-dark .badge{background:#213b45;color:#bcd7df;border-color:#34525c}
+.theme-dark footer{background:#0a151c}
+
+/* Accessibility + polish */
+::selection{background:rgba(40,120,184,.20);color:inherit}
+button,.btn,.word-card,.language-card,.person{will-change:transform}
+@media(max-width:1000px){
+  .topbar{padding:0 4vw}
+  .nav{display:none}
+  .archive-toolbar{top:82px}
+}
+@media(max-width:760px){
+  .topbar{height:70px}
+  .brand:before{width:36px;height:36px;font-size:11px}
+  .hero{padding-top:125px}
+  .hero:before{width:105vw}
+  .hero h1{font-size:clamp(45px,14vw,72px)}
+  section{padding:78px 5vw}
+  .archive-toolbar{position:relative;top:auto}
+  .language-card{min-height:220px}
+}
+
+
+.hero-script-row{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-bottom:20px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:25px;
+}
+.hero-script-row span{
+  display:grid;
+  place-items:center;
+  width:45px;height:45px;
+  border-radius:14px;
+  background:rgba(255,255,255,.72);
+  border:1px solid #e1e7e9;
+  box-shadow:0 7px 20px rgba(28,43,54,.07);
+}
+.hero-script-row span:nth-child(1){color:var(--saffron)}
+.hero-script-row span:nth-child(2){color:var(--rose)}
+.hero-script-row span:nth-child(3){color:var(--blue)}
+.hero-script-row span:nth-child(4){color:var(--green)}
+.hero-script-row span:nth-child(5){color:var(--indigo)}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home">Lupt Shabd</a>
+  <nav class="nav">
+    <a href="#archive" data-i18n="archive">Archive</a>
+    <a href="#languages" data-i18n="languages">Languages</a>
+    <a href="#explore" data-i18n="explore">Explore</a>
+    <a href="#research" data-i18n="research">Research</a>
+    <a href="#about" data-i18n="about">About</a>
+  </nav>
+  <div class="controls">
+    <select id="uiLang" aria-label="Interface language">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="kn">ಕನ್ನಡ</option>
+      <option value="ml">മലയാളം</option>
+      <option value="bn">বাংলা</option>
+    </select>
+    <button class="iconbtn" id="themeBtn" aria-label="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main id="home">
+<section class="hero">
+  <div class="floating-layer" id="floatingLayer" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-script-row" aria-hidden="true"><span>अ</span><span>অ</span><span>ಕ</span><span>മ</span><span>ॐ</span></div>
+    <div class="kicker">DIGITAL HUMANITIES · LINGUISTIC MEMORY</div>
+    <h1>Bhāratasya<br>Pratirodha-Itihāsaṁ</h1>
+    <p data-i18n="tagline">An archive of rare and forgotten Indian words — preserving the words that memory should not lose.</p>
+    <div class="ctas">
+      <a class="btn" href="#archive" data-i18n="enter">Enter the Archive</a>
+      <a class="btn secondary" href="#about" data-i18n="aboutArchive">About the Archive</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="eyebrow">THE COLLECTION</div>
+    <h2 data-i18n="memory">A living archive of linguistic memory.</h2>
+    <p data-i18n="intro">Words can disappear from everyday speech while the worlds they describe remain in cultural memory. This archive gives such vocabulary a durable digital home.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><strong id="statWords">0</strong><span data-i18n="records">Archived records</span></div>
+    <div class="stat"><strong id="statLangs">0</strong><span data-i18n="languages">Languages</span></div>
+    <div class="stat"><strong id="statScripts">0</strong><span data-i18n="scripts">Scripts</span></div>
+    <div class="stat"><strong id="statCats">0</strong><span data-i18n="categories">Semantic categories</span></div>
+  </div>
+</section>
+
+<section id="languages">
+  <div class="section-head">
+    <div class="eyebrow">LANGUAGES</div>
+    <h2>Explore the scripts.</h2>
+  </div>
+  <div class="language-grid" id="languageGrid"></div>
+</section>
+
+<section id="archive">
+  <div class="section-head">
+    <div class="eyebrow">THE ARCHIVE</div>
+    <h2>Find a word.</h2>
+    <p>Search the native word, transliteration, meaning, language, category, or archive identifier.</p>
+  </div>
+  <div class="archive-toolbar">
+    <input class="search" id="search" placeholder="Search the archive…" aria-label="Search archive">
+    <select class="filter" id="langFilter"><option value="">All languages</option></select>
+    <select class="filter" id="catFilter"><option value="">All categories</option></select>
+  </div>
+  <div class="archive-grid" id="archiveGrid"></div>
+</section>
+
+<section id="explore">
+  <div class="section-head">
+    <div class="eyebrow">DISCOVER</div>
+    <h2>Word from the Archive.</h2>
+  </div>
+  <div class="discover">
+    <div class="word-feature" id="wordFeature"></div>
+    <div class="info-card">
+      <h3>Why preserve rare words?</h3>
+      <p>Vocabulary carries traces of daily life, social relationships, objects, places, art, technology, belief, and ways of seeing the world. A digital archive allows researchers and future generations to encounter words that may no longer be common in everyday speech.</p>
+      <div class="notice">The lexical entries remain faithful to the supplied source data. Where archival information is unavailable, the site does not invent it.</div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="section-head">
+    <div class="eyebrow">RESEARCHER VIEW</div>
+    <h2>From word to metadata.</h2>
+    <p>Each record separates the original lexical data from the archival metadata added for digital discovery and preservation.</p>
+  </div>
+  <div class="about-grid">
+    <div class="panel">
+      <h3>Source layer</h3>
+      <ul>
+        <li>Native word</li>
+        <li>Source transliteration</li>
+        <li>Supplied English meaning</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Archive layer</h3>
+      <ul>
+        <li>Dublin Core-inspired metadata</li>
+        <li>Language and ISO codes</li>
+        <li>Script and semantic category</li>
+        <li>Unique archival identifier</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <div class="eyebrow">ABOUT</div>
+    <h2>An academic archive with a human purpose.</h2>
+  </div>
+  <div class="about-grid">
+    <div class="panel">
+      <h3>Project principle</h3>
+      <p>This Digital Humanities project documents lesser-used Indian vocabulary in a structured, searchable form. The original lexical information is kept distinct from archival interpretation so that future researchers can extend the collection without losing sight of the source.</p>
+    </div>
+    <div class="panel">
+      <h3>Project contributors</h3>
+      <div class="contributors">
+        <div class="person"><strong>Rimpa Garai</strong><span>26MA0020</span></div>
+        <div class="person"><strong>Anand Subhas Shivanagudi</strong><span>26MA0004</span></div>
+        <div class="person"><strong>Aleem Rafeek</strong><span>26MA0002</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div>
+    <div class="footer-title">Lupt Shabd</div>
+    <div class="footer-note">An Archive of Rare and Forgotten Indian Words · Digital Humanities Project</div>
+  </div>
+  <div class="footer-note">Preserving linguistic memory for future generations.</div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalWord">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div>
+        <div class="modal-native" id="modalWord"></div>
+        <div class="modal-trans" id="modalTrans"></div>
+        <div class="modal-meaning" id="modalMeaning"></div>
+      </div>
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-actions">
+        <button class="speak" id="speakBtn">🔊 Pronounce</button>
+        <button class="copy" id="copyBtn">Copy record</button>
+      </div>
+      <div class="meta" id="meta"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const WORDS = [
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "കുപ്പായം",
+    "transliteration": "Kuppayam",
+    "meaning": "Dress",
+    "identifier": "BLA-MAL-0001",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "കിണ്ണം",
+    "transliteration": "Kinnam",
+    "meaning": "Plate",
+    "identifier": "BLA-MAL-0002",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "തള്ളിപ്പെട്ടി",
+    "transliteration": "Thallippetti",
+    "meaning": "Fridge",
+    "identifier": "BLA-MAL-0003",
+    "category": "Other"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "ഗുമസ്ഥാൻ",
+    "transliteration": "Gumasthan",
+    "meaning": "Clerk",
+    "identifier": "BLA-MAL-0004",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "അഞ്ചൽ ആപ്പീസ്",
+    "transliteration": "Anchal Aapees",
+    "meaning": "Post Office",
+    "identifier": "BLA-MAL-0005",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "കോസരി",
+    "transliteration": "Kosari",
+    "meaning": "Mattress",
+    "identifier": "BLA-MAL-0006",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "നാലും കൂടിയ വഴി",
+    "transliteration": "Naalum Koodiya Vazhi",
+    "meaning": "Junction",
+    "identifier": "BLA-MAL-0007",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "കലാലയം",
+    "transliteration": "Kalaalayam",
+    "meaning": "College",
+    "identifier": "BLA-MAL-0008",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "ആതുരാലയം",
+    "transliteration": "Aathuraalayam",
+    "meaning": "Hospital",
+    "identifier": "BLA-MAL-0009",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "മട്ടുപ്പാവ്",
+    "transliteration": "Mattuppaavu",
+    "meaning": "Terrace",
+    "identifier": "BLA-MAL-0010",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "കലവറ",
+    "transliteration": "Kalavara",
+    "meaning": "Store Room",
+    "identifier": "BLA-MAL-0011",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "കിഴിവ്",
+    "transliteration": "Kizhivu",
+    "meaning": "Discount",
+    "identifier": "BLA-MAL-0012",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "വ്യവസായം",
+    "transliteration": "Vyavasaayam",
+    "meaning": "Business",
+    "identifier": "BLA-MAL-0013",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "നാണയം",
+    "transliteration": "Naanayam",
+    "meaning": "Coin",
+    "identifier": "BLA-MAL-0014",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "പ്രമാണം",
+    "transliteration": "Pramaanam",
+    "meaning": "Document",
+    "identifier": "BLA-MAL-0015",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "യാത്രാച്ചീട്ട്",
+    "transliteration": "Yaathraacheettu",
+    "meaning": "Ticket",
+    "identifier": "BLA-MAL-0016",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "തീവണ്ടി",
+    "transliteration": "Theevandi",
+    "meaning": "Train",
+    "identifier": "BLA-MAL-0017",
+    "category": "Transport & Travel"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "നിലയം",
+    "transliteration": "Nilayam",
+    "meaning": "Station",
+    "identifier": "BLA-MAL-0018",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "വാർത്താപത്രിക",
+    "transliteration": "Vaarthaapathrika",
+    "meaning": "Newspaper",
+    "identifier": "BLA-MAL-0019",
+    "category": "Communication & Media"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "സഞ്ചി",
+    "transliteration": "Sanji",
+    "meaning": "Bag",
+    "identifier": "BLA-MAL-0020",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "മൊന്ത",
+    "transliteration": "Montha",
+    "meaning": "Jug",
+    "identifier": "BLA-MAL-0021",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "വിനോദയാത്ര",
+    "transliteration": "Vinodayathra",
+    "meaning": "Tour",
+    "identifier": "BLA-MAL-0022",
+    "category": "Transport & Travel"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "മരുന്നുകട",
+    "transliteration": "Marunnukada",
+    "meaning": "Medical Store",
+    "identifier": "BLA-MAL-0023",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "അളവുകോൽ",
+    "transliteration": "Alavukol",
+    "meaning": "Scale",
+    "identifier": "BLA-MAL-0024",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "പങ്ക",
+    "transliteration": "Panka",
+    "meaning": "Fan",
+    "identifier": "BLA-MAL-0025",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Malayalam",
+    "language_native": "മലയാളം",
+    "iso639_2": "mal",
+    "iso639_3": "mal",
+    "script": "Malayalam",
+    "native_word": "വിമാനം    -",
+    "transliteration": "Vimaanam",
+    "meaning": "Flight",
+    "identifier": "BLA-MAL-0026",
+    "category": "Transport & Travel"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಕನ್ನಡಕ",
+    "transliteration": "Kanndaka",
+    "meaning": "Glasses",
+    "identifier": "BLA-KAN-0027",
+    "category": "Other"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಭ್ರಮರ",
+    "transliteration": "Bhramara",
+    "meaning": "Bumblebee",
+    "identifier": "BLA-KAN-0028",
+    "category": "Animals"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಹೊತ್ತಿಗೆ",
+    "transliteration": "Hottige",
+    "meaning": "Book",
+    "identifier": "BLA-KAN-0029",
+    "category": "Other"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಭಿತ್ತಿಪತ್ರ",
+    "transliteration": "Bhittipatra",
+    "meaning": "Poster",
+    "identifier": "BLA-KAN-0030",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಕಿನ್ನರ",
+    "transliteration": "Kinnara",
+    "meaning": "Half human half animal Celestial entity",
+    "identifier": "BLA-KAN-0031",
+    "category": "Animals"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಪತ್ರ",
+    "transliteration": "Patra",
+    "meaning": "Letter",
+    "identifier": "BLA-KAN-0032",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಹೊನ್ನು",
+    "transliteration": "Honnu",
+    "meaning": "Gold",
+    "identifier": "BLA-KAN-0033",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಅಂಚೆ",
+    "transliteration": "Anche",
+    "meaning": "Post",
+    "identifier": "BLA-KAN-0034",
+    "category": "Communication & Media"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಕಂದೀಲು",
+    "transliteration": "Kandeelu",
+    "meaning": "Lantern / Oil lamp",
+    "identifier": "BLA-KAN-0035",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಶ್ವಾನ",
+    "transliteration": "Shvana",
+    "meaning": "Dog",
+    "identifier": "BLA-KAN-0036",
+    "category": "Animals"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಕುಕ್ಕುಟ",
+    "transliteration": "Kukkuta",
+    "meaning": "Cock ,Rooster ,Hen",
+    "identifier": "BLA-KAN-0037",
+    "category": "Animals"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಮುಕುಟ",
+    "transliteration": "Mukuta",
+    "meaning": "A crown Diedam",
+    "identifier": "BLA-KAN-0038",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ನಖ",
+    "transliteration": "Nakha",
+    "meaning": "Nail",
+    "identifier": "BLA-KAN-0039",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ವೈದ್ಯ",
+    "transliteration": "Vaidya",
+    "meaning": "Doctor",
+    "identifier": "BLA-KAN-0040",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಗಣಕಯಂತ್ರ",
+    "transliteration": "Ganakayantra",
+    "meaning": "Computer",
+    "identifier": "BLA-KAN-0041",
+    "category": "Communication & Media"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ರೋಮ",
+    "transliteration": "Roma",
+    "meaning": "Hair",
+    "identifier": "BLA-KAN-0042",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ರುಧಿರ",
+    "transliteration": "Rudhira",
+    "meaning": "Blood or color red",
+    "identifier": "BLA-KAN-0043",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಝೇಂಕಾರ",
+    "transliteration": "Jhenkara",
+    "meaning": "Resonance",
+    "identifier": "BLA-KAN-0044",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಕೈವಾರ",
+    "transliteration": "Kaivaara",
+    "meaning": "Praise / Compass/ Manual skill",
+    "identifier": "BLA-KAN-0045",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಗೊಳಲೆ",
+    "transliteration": "Golale",
+    "meaning": "Husk/Outer shell",
+    "identifier": "BLA-KAN-0046",
+    "category": "Other"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಖೂಳ",
+    "transliteration": "Khoola",
+    "meaning": "A stupid or a wicked man",
+    "identifier": "BLA-KAN-0047",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ವ್ಯಾಘ್ರ",
+    "transliteration": "Vyaghra",
+    "meaning": "Tiger",
+    "identifier": "BLA-KAN-0048",
+    "category": "Animals"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಭಾನು",
+    "transliteration": "Bhanu",
+    "meaning": "Sky",
+    "identifier": "BLA-KAN-0049",
+    "category": "Nature & Phenomena"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಕರಿ",
+    "transliteration": "Kari",
+    "meaning": "Elephant",
+    "identifier": "BLA-KAN-0050",
+    "category": "Animals"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಜಂಗಮ",
+    "transliteration": "Jangama",
+    "meaning": "It refers to a wandering holy man or spiritual guide.",
+    "identifier": "BLA-KAN-0051",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಜಂಗಮನಗಂಟೆ",
+    "transliteration": "Jangamana gante",
+    "meaning": "Cell phone",
+    "identifier": "BLA-KAN-0052",
+    "category": "Communication & Media"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಚಿತ್ತಾರ",
+    "transliteration": "Chittaara",
+    "meaning": "Wall painting, decorative art,   drawing, or traditional mural/folk art",
+    "identifier": "BLA-KAN-0053",
+    "category": "Art & Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಪದಾರ್ಥ",
+    "transliteration": "Padaartha",
+    "meaning": "An object, substance, material, matter, or a food dish/ingredient",
+    "identifier": "BLA-KAN-0054",
+    "category": "Food & Substance"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಮುಂಗುರುಳು",
+    "transliteration": "Mungurulu",
+    "meaning": "Forelock; the curls or locks of hair that fall on the forehead",
+    "identifier": "BLA-KAN-0055",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ದರ್ಪಣ",
+    "transliteration": "Darpana",
+    "meaning": "Mirror or a reflecting surface",
+    "identifier": "BLA-KAN-0056",
+    "category": "Objects & Material Culture"
+  },
+  {
+    "language": "Kannada",
+    "language_native": "ಕನ್ನಡ",
+    "iso639_2": "kan",
+    "iso639_3": "kan",
+    "script": "Kannada",
+    "native_word": "ಸ್ಥಾವರ",
+    "transliteration": "Sthaavara",
+    "meaning": "Stationary, immobile, fixed in one place, or immovable property",
+    "identifier": "BLA-KAN-0057",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "অন্তপুর",
+    "transliteration": "antapur",
+    "meaning": "inner quarters",
+    "identifier": "BLA-BEN-0058",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "নিষ্কৃতি",
+    "transliteration": "nishkriti",
+    "meaning": "relief",
+    "identifier": "BLA-BEN-0059",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "জ্যোৎস্নালোক",
+    "transliteration": "jyotsnalok",
+    "meaning": "Moonlight",
+    "identifier": "BLA-BEN-0060",
+    "category": "Nature & Phenomena"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "প্রাতঃরাশ",
+    "transliteration": "pratorash",
+    "meaning": "Breakfast",
+    "identifier": "BLA-BEN-0061",
+    "category": "Time"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "গুণ্ঠন",
+    "transliteration": "gunthon",
+    "meaning": "veil, hood, cover",
+    "identifier": "BLA-BEN-0062",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "প্রহর",
+    "transliteration": "prahara",
+    "meaning": "period of about three hours or a   watch in English.",
+    "identifier": "BLA-BEN-0063",
+    "category": "Time"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "কিংকর্তব্যবিমূঢ়",
+    "transliteration": "kingkartabbabimuundo",
+    "meaning": "Confused",
+    "identifier": "BLA-BEN-0064",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "জিঘাংসা",
+    "transliteration": "jighansa",
+    "meaning": "desire to kill, blood-thirstiness",
+    "identifier": "BLA-BEN-0065",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "মঞ্জুষা",
+    "transliteration": "Manjusha",
+    "meaning": "casket, box",
+    "identifier": "BLA-BEN-0066",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "পান্থশালা",
+    "transliteration": "panthshala",
+    "meaning": "lodge, hotel, or guesthouse",
+    "identifier": "BLA-BEN-0067",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "দৌহিত্র",
+    "transliteration": "douhitro",
+    "meaning": "daughter's son or grandson",
+    "identifier": "BLA-BEN-0068",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "লিপ্সা",
+    "transliteration": "lipsa",
+    "meaning": "greed, desire, longing",
+    "identifier": "BLA-BEN-0069",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "ক্রোড়পত্র",
+    "transliteration": "krorpotro",
+    "meaning": "supplement or appendix.",
+    "identifier": "BLA-BEN-0070",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "চিকুর",
+    "transliteration": "chikur",
+    "meaning": "hair or a tuft of hair",
+    "identifier": "BLA-BEN-0071",
+    "category": "Health & Body"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "তথাপি",
+    "transliteration": "tothapi",
+    "meaning": "nevertheless",
+    "identifier": "BLA-BEN-0072",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "পূর্বাহ্ন",
+    "transliteration": "purbanho",
+    "meaning": "the first part of the day",
+    "identifier": "BLA-BEN-0073",
+    "category": "Time"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "ক্ষনপ্রভা",
+    "transliteration": "kkhonprobha",
+    "meaning": "Lightning",
+    "identifier": "BLA-BEN-0074",
+    "category": "Nature & Phenomena"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "উআরী",
+    "transliteration": "Uari",
+    "meaning": "pavilion",
+    "identifier": "BLA-BEN-0075",
+    "category": "Places & Buildings"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "আসমুদ্রহিমাচল",
+    "transliteration": "asmudrohimachal",
+    "meaning": "throughout the length and breadth of India.",
+    "identifier": "BLA-BEN-0076",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "অসূর্যম্পশ্যা",
+    "transliteration": "osurjomposhya",
+    "meaning": "as a woman who is kept away from the rays of the sun or confined to the   harem",
+    "identifier": "BLA-BEN-0077",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "প্রোষিতভর্তৃকা",
+    "transliteration": "Proshito bhartrika",
+    "meaning": "a woman whose husband is away",
+    "identifier": "BLA-BEN-0078",
+    "category": "People & Roles"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "অরিন্দম",
+    "transliteration": "Arindam",
+    "meaning": "destroyer of enemies",
+    "identifier": "BLA-BEN-0079",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "খণ্ডিতা",
+    "transliteration": "Khandita",
+    "meaning": "broken",
+    "identifier": "BLA-BEN-0080",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "অন্তরীক্ষ",
+    "transliteration": "antarikkho",
+    "meaning": "Outer space",
+    "identifier": "BLA-BEN-0081",
+    "category": "Nature & Phenomena"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "স্থিতপ্রজ্ঞ",
+    "transliteration": "sthitoproggo",
+    "meaning": "Static knowledge",
+    "identifier": "BLA-BEN-0082",
+    "category": "Abstract & Social Concepts"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "কুহেলিকা",
+    "transliteration": "Kuhelika",
+    "meaning": "fogg or mystery",
+    "identifier": "BLA-BEN-0083",
+    "category": "Nature & Phenomena"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "ছায়াবৃত",
+    "transliteration": "Chhayabrita",
+    "meaning": "shaded, shadowy",
+    "identifier": "BLA-BEN-0084",
+    "category": "Other"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "ত্রিযামা",
+    "transliteration": "Triyama",
+    "meaning": "Night",
+    "identifier": "BLA-BEN-0085",
+    "category": "Time"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "প্রভঞ্জন",
+    "transliteration": "provanjon",
+    "meaning": "violent storm",
+    "identifier": "BLA-BEN-0086",
+    "category": "Nature & Phenomena"
+  },
+  {
+    "language": "Bengali",
+    "language_native": "বাংলা",
+    "iso639_2": "ben",
+    "iso639_3": "ben",
+    "script": "Bengali",
+    "native_word": "অপাঙ্গ",
+    "transliteration": "apang",
+    "meaning": "outer corner of the eye",
+    "identifier": "BLA-BEN-0087",
+    "category": "Other"
+  }
+];
+
+const UI = {
+  en:{archive:"Archive",languages:"Languages",explore:"Explore",research:"Research",about:"About",tagline:"An archive of rare and forgotten Indian words — preserving the words that memory should not lose.",enter:"Enter the Archive",aboutArchive:"About the Archive",memory:"A living archive of linguistic memory.",intro:"Words can disappear from everyday speech while the worlds they describe remain in cultural memory.",records:"Archived records",scripts:"Scripts",categories:"Semantic categories"},
+  hi:{archive:"अभिलेखागार",languages:"भाषाएँ",explore:"अन्वेषण",research:"शोध",about:"परिचय",tagline:"दुर्लभ और विस्मृत भारतीय शब्दों का अभिलेख — उन शब्दों को संरक्षित करना जिन्हें स्मृति को नहीं खोना चाहिए।",enter:"अभिलेखागार में प्रवेश",aboutArchive:"अभिलेख के बारे में",memory:"भाषाई स्मृति का जीवित अभिलेख",intro:"शब्द रोज़मर्रा की भाषा से ओझल हो सकते हैं, जबकि उनके पीछे की दुनिया सांस्कृतिक स्मृति में जीवित रहती है।",records:"अभिलेखित शब्द",scripts:"लिपियाँ",categories:"अर्थगत श्रेणियाँ"},
+  kn:{archive:"ಸಂಗ್ರಹ",languages:"ಭಾಷೆಗಳು",explore:"ಅನ್ವೇಷಿಸಿ",research:"ಸಂಶೋಧನೆ",about:"ನಮ್ಮ ಬಗ್ಗೆ",tagline:"ಅಪರೂಪದ ಮತ್ತು ಮರೆತುಹೋಗುತ್ತಿರುವ ಭಾರತೀಯ ಪದಗಳ ಸಂಗ್ರಹ — ಸ್ಮೃತಿ ಕಳೆದುಕೊಳ್ಳಬಾರದ ಪದಗಳನ್ನು ಉಳಿಸುವ ಪ್ರಯತ್ನ.",enter:"ಸಂಗ್ರಹ ಪ್ರವೇಶಿಸಿ",aboutArchive:"ಸಂಗ್ರಹದ ಬಗ್ಗೆ",memory:"ಭಾಷಾ ಸ್ಮೃತಿಯ ಜೀವಂತ ಸಂಗ್ರಹ.",intro:"ಪದಗಳು ದೈನಂದಿನ ಬಳಕೆಯಿಂದ ಮರೆಯಾಗಬಹುದು; ಅವು ವಿವರಿಸುವ ಲೋಕಗಳು ಸಾಂಸ್ಕೃತಿಕ ಸ್ಮೃತಿಯಲ್ಲಿ ಉಳಿಯುತ್ತವೆ.",records:"ಸಂಗ್ರಹಿತ ದಾಖಲೆಗಳು",scripts:"ಲಿಪಿಗಳು",categories:"ಅರ್ಥವರ್ಗಗಳು"},
+  ml:{archive:"ശേഖരം",languages:"ഭാഷകൾ",explore:"പര്യവേക്ഷണം",research:"ഗവേഷണം",about:"ഞങ്ങളെക്കുറിച്ച്",tagline:"അപൂർവവും മറന്നുപോകുന്നതുമായ ഇന്ത്യൻ പദങ്ങളുടെ ശേഖരം — ഓർമ്മ നഷ്ടപ്പെടുത്തരുതാത്ത പദങ്ങളെ സംരക്ഷിക്കുന്നു.",enter:"ശേഖരത്തിലേക്ക് പ്രവേശിക്കുക",aboutArchive:"ശേഖരത്തെക്കുറിച്ച്",memory:"ഭാഷാസ്മൃതിയുടെ ജീവിക്കുന്ന ശേഖരം.",intro:"പദങ്ങൾ ദൈനംദിന ഉപയോഗത്തിൽ നിന്ന് അപ്രത്യക്ഷമാകാം; അവ വിവരിക്കുന്ന ലോകങ്ങൾ സാംസ്കാരിക ഓർമ്മയിൽ തുടരുന്നു.",records:"ശേഖരിച്ച രേഖകൾ",scripts:"ലിപികൾ",categories:"അർത്ഥവിഭാഗങ്ങൾ"},
+  bn:{archive:"আর্কাইভ",languages:"ভাষা",explore:"অন্বেষণ",research:"গবেষণা",about:"পরিচিতি",tagline:"বিরল ও বিস্মৃত ভারতীয় শব্দের আর্কাইভ — যে শব্দগুলি স্মৃতির হারানো উচিত নয়, তাদের সংরক্ষণ।",enter:"আর্কাইভে প্রবেশ করুন",aboutArchive:"আর্কাইভ সম্পর্কে",memory:"ভাষাগত স্মৃতির একটি জীবন্ত আর্কাইভ।",intro:"শব্দ দৈনন্দিন ব্যবহার থেকে হারিয়ে যেতে পারে, কিন্তু তাদের বর্ণিত জগত সাংস্কৃতিক স্মৃতিতে থেকে যায়।",records:"সংরক্ষিত রেকর্ড",scripts:"লিপি",categories:"অর্থগত শ্রেণি"}
+};
+
+const $ = id => document.getElementById(id);
+const langs = [...new Set(WORDS.map(w=>w.language))];
+const cats = [...new Set(WORDS.map(w=>w.category))];
+
+function init(){
+  $("statWords").textContent=WORDS.length;
+  $("statLangs").textContent=langs.length;
+  $("statScripts").textContent=new Set(WORDS.map(w=>w.script)).size;
+  $("statCats").textContent=cats.length;
+
+  langs.forEach(l=>{
+    const words=WORDS.filter(w=>w.language===l);
+    const first=words[0];
+    const opt=document.createElement("option"); opt.value=l; opt.textContent=l; $("langFilter").appendChild(opt);
+    const card=document.createElement("div"); card.className="language-card";
+    card.innerHTML=`<div class="script">${first.language_native}</div><h3>${l}</h3><p>${words.length} archived records · ISO 639-3: ${first.iso639_3}</p><button class="btn secondary" onclick="setLanguage('${l}')">Explore →</button>`;
+    $("languageGrid").appendChild(card);
+  });
+  cats.sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;$("catFilter").appendChild(o)});
+  render();
+  newFloatingWords();
+  showRandomWord();
+}
+function setLanguage(l){$("langFilter").value=l; document.querySelector("#archive").scrollIntoView({behavior:"smooth"});render()}
+function render(){
+  const q=$("search").value.toLowerCase().trim(), lf=$("langFilter").value, cf=$("catFilter").value;
+  const filtered=WORDS.filter(w=>{
+    const hay=[w.native_word,w.transliteration,w.meaning,w.language,w.category,w.identifier].join(" ").toLowerCase();
+    return (!q||hay.includes(q))&&(!lf||w.language===lf)&&(!cf||w.category===cf);
+  });
+  $("archiveGrid").innerHTML="";
+  if(!filtered.length){$("archiveGrid").innerHTML='<div class="empty">No records match the current search.</div>';return}
+  filtered.forEach(w=>{
+    const c=document.createElement("article");c.className="word-card";c.onclick=()=>openRecord(w);
+    c.innerHTML=`<div><span class="badge">${w.language}</span><div class="word-native">${esc(w.native_word)}</div><div class="word-trans">${esc(w.transliteration)}</div><div class="word-meaning">${esc(w.meaning)}</div></div><div class="card-bottom"><span class="id">${w.identifier}</span><span class="id">${w.category}</span></div>`;
+    $("archiveGrid").appendChild(c);
+  });
+}
+function openRecord(w){
+  $("modalWord").textContent=w.native_word;
+  $("modalTrans").textContent=w.transliteration;
+  $("modalMeaning").textContent=w.meaning;
+  const rows=[
+    ["Title",w.native_word],["Subject",w.category],["Description",w.meaning],
+    ["Source","Rare and Lesser-Used Indian Language Vocabulary Dataset"],
+    ["Language",`${w.language} · ISO 639-2: ${w.iso639_2} · ISO 639-3: ${w.iso639_3}`],
+    ["Relation","Not specified in source"],["Coverage",`${w.language} linguistic region (broad association)`],
+    ["Creator","Lupt Shabd Digital Archive"],
+    ["Contributor","Project contributors; individual source contributor not specified"],
+    ["Publisher","Lupt Shabd Digital Archive"],
+    ["Rights","Rights information for the original lexical material is not specified in the supplied dataset."],
+    ["Date","Not specified in source"],["Type","Lexical Resource · Text · Dataset"],
+    ["Format","Unicode text · UTF-8"],["Identifier",w.identifier],
+    ["Native Word",w.native_word],["Source Transliteration",w.transliteration],["Meaning",w.meaning],
+    ["Script",w.script],["Semantic Category",w.category]
+  ];
+  $("meta").innerHTML=rows.map(r=>`<div class="label">${esc(r[0])}</div><div class="value">${esc(r[1])}</div>`).join("");
+  $("speakBtn").onclick=()=>speakWord(w);
+  $("copyBtn").onclick=()=>navigator.clipboard?.writeText(JSON.stringify(w,null,2));
+  $("modal").classList.add("open");
+}
+function speakWord(w){
+  if(!("speechSynthesis" in window)){alert("Speech synthesis is not supported in this browser.");return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(w.native_word);
+  const locale={Malayalam:"ml-IN",Kannada:"kn-IN",Bengali:"bn-IN"}[w.language]||"en-IN";
+  u.lang=locale; u.rate=.78; u.pitch=1;
+  speechSynthesis.speak(u);
+}
+function showRandomWord(){
+  const w=WORDS[Math.floor(Math.random()*WORDS.length)];
+  $("wordFeature").innerHTML=`<div class="badge" style="background:rgba(255,255,255,.16);color:white">${w.language}</div><div class="native">${esc(w.native_word)}</div><div class="trans">${esc(w.transliteration)}</div><div class="meaning">${esc(w.meaning)}</div><div style="margin-top:24px"><button class="btn" style="background:white;color:var(--accent);border-color:white" onclick='openRecord(${JSON.stringify(w)})'>Open record →</button></div>`;
+}
+function newFloatingWords(){
+  const layer=$("floatingLayer"); layer.innerHTML="";
+  const shuffled=[...WORDS].sort(()=>Math.random()-.5).slice(0,Math.min(30,WORDS.length));
+  shuffled.forEach((w,i)=>{
+    const s=document.createElement("span");s.className="float-word";s.textContent=w.native_word;
+    s.style.setProperty("--x0",(Math.random()*100)+"vw");
+    s.style.setProperty("--dx",((Math.random()*24)-12)+"vw");
+    s.style.setProperty("--r",((Math.random()*18)-9)+"deg");
+    s.style.animationDuration=(16+Math.random()*28)+"s";
+    s.style.animationDelay=(-Math.random()*35)+"s";
+    s.style.fontSize=(15+Math.random()*20)+"px";
+    layer.appendChild(s);
+  });
+}
+function esc(v){return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+$("search").addEventListener("input",render);
+$("langFilter").addEventListener("change",render);
+$("catFilter").addEventListener("change",render);
+$("closeModal").onclick=()=>{$("modal").classList.remove("open");speechSynthesis?.cancel()};
+$("modal").addEventListener("click",e=>{if(e.target===$("modal")){$("modal").classList.remove("open");speechSynthesis?.cancel()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("modal").classList.remove("open")});
+$("themeBtn").onclick=()=>document.body.classList.toggle("theme-dark");
+$("uiLang").addEventListener("change",()=>{
+  const d=UI[$("uiLang").value]||UI.en;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(d[k])el.textContent=d[k]});
+});
+init();
+</script>
+</body>
+</html>
